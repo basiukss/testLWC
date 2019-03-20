@@ -1,0 +1,85 @@
+<template>
+	<lightning-card title="Lightning Web Component" icon-name="custom:custom2">
+		<div class="slds-m-around_medium">
+			<!--Object list-->
+			<template if:true={objectList}>				
+				<div>
+					<p>Objects: {objectList.length}</p>
+					<div onkeyup={handleObjectSearch} role="combobox">
+						<lightning-input
+							label="Search object"
+							type="search"
+							value={selectedObject.Label}
+						></lightning-input>
+					</div>
+					<div if:true={searchObjectResult}>						
+						<div class="slds-lookup slds-is-open" >            
+							<div class="slds-lookup__menu">
+								<ul class="slds-lookup__list" role="presentation">
+									<li class="slds-lookup__item" role="option">                                    
+										<span>All: {objectList.length} Searched: {queryObjects.length}</span>
+									</li>
+									<template for:each={queryObjects} for:item="object">
+										<li key={object} class="slds-lookup__item" onclick={selectObject} role="option">
+											<span class="slds-button" data-record-api-name={object.Name}>{object.Label}</span>
+										</li> 
+									</template>
+								</ul> 
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</template>
+			<!--Fields list-->
+			<template if:true={fieldList}>
+				<div>
+					<p>Fields: {fieldList.length}</p>
+						<div onkeyup={handleFieldSearch} role="combobox">
+							<lightning-input
+								label="Select field"
+								type="search"
+								value={selectedField.Label}
+							></lightning-input>
+						</div>
+						<div if:true={searchFieldResult}>						
+							<div class="slds-lookup slds-is-open" >            
+								<div class="slds-lookup__menu">
+									<ul class="slds-lookup__list" role="presentation">
+										<template for:each={queryFields} for:item="field">
+											<li key={field} class="slds-lookup__item" onclick={selectField} role="option">
+												<span class="slds-button" data-record-api-name={field.Name}>{field.Label}</span>
+											</li> 
+										</template>
+									</ul> 
+								</div>
+							</div>
+						</div> 
+						<ul role="presentation">
+							<template for:each={queryField} for:item="fieldListItem">
+								<li key={fieldListItem} onclick={selectField} role="option">
+									<span class="slds-button" data-record-api-name={fieldListItem.Name}>{fieldListItem.Label}</span>
+								</li> 
+							</template>
+						</ul>
+				</div>
+			</template>
+			<!--value list-->
+			<template if:true={valueList}>
+				<ul role="presentation">
+					<template for:each={valueList} for:item="valueListItem">
+						<li key={valueListItem} role="option">
+							<span class="slds-button" data-record-api-name={valueListItem.Name}>{valueListItem.Label} : {valueListItem.Value}</span>
+						</li> 
+					</template>
+				</ul>
+			</template>
+			<!--Error-->
+            <template if:true={error}>
+				<div class="slds-text-color_error">
+					An error occurred while loading the record list
+				</div>
+			</template>
+        </div>
+	</lightning-card>
+</template>
