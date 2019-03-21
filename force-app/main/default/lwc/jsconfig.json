@@ -3,6 +3,9 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
+            "c/lookup": [
+                "lookup/lookup.js"
+            ],
             "c/record": [
                 "record/record.js"
             ]

@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="lwc" icon-name="custom:custom3">
+    <div class="slds-m-around_medium">
+        <template if:true={inputData}>
+            <div role="combobox" onkeyup={handleSearch}>
+                <lightning-input
+                    label="Search" 
+                    type="search" 
+                    autocomplete="off"                    
+                    value={searchTerm}
+                    onclick={handleSearch}
+                    
+                    onfocus={handleFocus}
+                    ></lightning-input>
+            </div>
+            <template if:true={hasResults}> 
+                    <div class="slds-lookup slds-is-open" >                                           
+                        <div class="slds-lookup__menu">
+                                <ul class="slds-lookup__list" role="presentation">
+                                    
+                                <template for:each={searchResults} for:item="searchResultsItem">
+                                    <li class="slds-lookup__item" role="option" key={searchResultsItem} onclick={selectItem}>                        
+                                        <span class="slds-button" data-item-value={searchResultsItem.Value}>{searchResultsItem.Label}</span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+            </template>
+        </template>
+        <template if:true={resultData}>
+            <div class="slds-m-top_medium slds-m-bottom_x-large">
+                <template for:each={resultData} for:item="resultDataItem">
+                    <div key={resultDataItem}>
+                        <lightning-pill label={resultDataItem.Label} name={resultDataItem.Value} onremove={handleRemoveSelectedItem}></lightning-pill>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>        
+    </lightning-card>
+</template>

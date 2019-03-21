@@ -68,4 +68,24 @@ public with sharing class RecordController {
             this.Label = l;
         }
     }
+
+    @AuraEnabled
+    public static String getContactList(){
+        List<Contact> ctl = [SELECT id, name FROM Contact LIMIT 20];
+        List<valueDTO> resultList = new List<valueDTO>();
+        for(Contact ct : ctl){
+            resultList.add(new valueDTO(ct.Id, ct.Name));
+        }
+        return JSON.serialize(resultList);
+    }
+
+    @AuraEnabled
+    public static String getAccountList(){
+        List<Account> ctl = [SELECT id, name FROM Account LIMIT 20];
+        List<valueDTO> resultList = new List<valueDTO>();
+        for(Account ct : ctl){
+            resultList.add(new valueDTO(ct.Id, ct.Name));
+        }
+        return JSON.serialize(resultList);
+    }
 }
