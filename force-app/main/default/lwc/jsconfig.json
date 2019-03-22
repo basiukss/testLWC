@@ -6,6 +6,9 @@
             "c/lookup": [
                 "lookup/lookup.js"
             ],
+            "c/lookup-two": [
+                "lookupTwo/lookupTwo.js"
+            ],
             "c/record": [
                 "record/record.js"
             ]

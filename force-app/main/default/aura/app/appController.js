@@ -35,5 +35,14 @@
         });
         $A.enqueueAction(action);
     }
-    ,      
+    ,  
+    handleCustomEvent: function(component,event, helper){
+        console.log('Aura handle event');
+        console.log(event.getParam('selected'));
+        component.set("v.selected", event.getParam('selected'));
+    }
+    ,  
+    handleClear: function(component,event, helper){
+        console.log(`Aura clear`);
+    }
 })
