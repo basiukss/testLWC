@@ -5,6 +5,7 @@ export default class LookupTwo extends LightningElement {
     @track searchTerm = '';
     @track searchResult = [];
     @api resultData = {};
+    @api clearData = false;
     blurTimeout;
 
     handleSearch(evt){
@@ -50,6 +51,10 @@ export default class LookupTwo extends LightningElement {
             300
         )        
     }
+    
+    hasResult() {
+        return this.searchResult.length > 0;
+    }
 
     get hasNoResult(){
         return this.searchTerm.length > 0 & this.searchResult.length === 0 & this.hasSelection() === false;
@@ -75,6 +80,12 @@ export default class LookupTwo extends LightningElement {
         });
         this.dispatchEvent(event);
     }
+    
+    handleClearSelectedItem(){
+        this.searchResult = [];
+        this.searchTerm = '';
+        this.resultData = {};
+    }
 
     renderedCallback() {
         const elements = this.template.querySelectorAll('.container');        
@@ -96,7 +107,7 @@ export default class LookupTwo extends LightningElement {
                     }
                     for(let j = foundedPositions.length-1; j >= 0; j--){
                         str = str.slice(0, foundedPositions[j]) + 
-                            '<span class="highlight">' + 
+                            '<span style="font-weight:bold; color: white; background-color: grey">' + 
                             str.slice(foundedPositions[j], foundedPositions[j] + keyword.length) + 
                             '</span>' + 
                             str.slice(foundedPositions[j] + keyword.length)
@@ -115,10 +126,45 @@ export default class LookupTwo extends LightningElement {
     }
 
     // style
-    get getSelectIconName() {
-        if(this.hasSelection() === true){
-            return 'utility:close';
+    get getLookupClass(){
+        let style = 'slds-lookup ';
+        if(this.hasResult()){
+            style += 'slds-is-open'
         }
-        return 'utility:search';
+        return style;        
     }
+
+    get getFormPillClass(){
+        let style = 'slds-pill_container ';
+        if(this.hasSelection()){
+            style += 'slds-show';
+        } else{
+            style += 'slds-hide';
+        }
+        return style;
+    }
+
+    get getFormInputClass(){
+        let style = 'slds-input ';
+        if(this.hasSelection()){
+            style += 'slds-hide';
+        } else{
+            style += 'slds-show';
+        }
+        return style;
+    }
+
+    get getFormIconClass(){
+        if(this.hasSelection()){
+            return 'slds-hide';
+        }
+        return 'slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default';
+    }
+
+    // get getSelectIconName() {
+    //     if(this.hasSelection() === true){
+    //         return 'utility:close';
+    //     }
+    //     return 'utility:search';
+    // }
 }

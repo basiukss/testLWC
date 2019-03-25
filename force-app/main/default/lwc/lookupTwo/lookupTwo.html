@@ -1,92 +1,44 @@
 <template>
-                <div class="slds-form-element">
-                  <label class="slds-form-element__label" for="combobox-id-1">Relate to</label>
-                  <div class="slds-form-element__control">
-                    <div class="slds-combobox_container">
-                      <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
-                          <input class="slds-input slds-combobox__input" id="combobox-id-1" aria-autocomplete="list" aria-controls="listbox-id-1" autocomplete="off" role="textbox" type="text" placeholder="Search..." value="" />
-                        </div>
-                        <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
-                          <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                            <li role="presentation" class="slds-listbox__item">
-                              <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                                <span class="slds-media__body">
-                                  <span class="slds-listbox__option-text slds-listbox__option-text_entity">Burlington Textiles Corp of America</span>
-                                  <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Account • Burlington, NC</span>
-                                </span>
-                              </div>
-                            </li>
-                            <li role="presentation" class="slds-listbox__item">
-                              <div id="option2" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                                <span class="slds-media__body">
-                                  <span class="slds-listbox__option-text slds-listbox__option-text_entity">Dickenson plc</span>
-                                  <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Account • Lawrence, KS</span>
-                                </span>
-                              </div>
-                            </li>
-                            <li role="presentation" class="slds-listbox__item">
-                              <div id="option3" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
-                                <span class="slds-media__body">
-                                  <span class="slds-listbox__option-text slds-listbox__option-text_entity">Edge Communications</span>
-                                  <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Account • Austin, TX</span>
-                                </span>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-    <!-- <div class="slds-input-has-icon slds-input-has-icon_right">
-        <lightning-icon icon-name="utility:search" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true" alternative-text="Search"></lightning-icon>
-        <input id="text-input-id-1" placeholder="Placeholder Text" class="slds-input" type="text" value="" />
-    </div> -->
     <lightning-card title="LWC" icon-name="custom:custom4">
-        <div class="slds-m-around_medium">
+        <!-- <div class="slds-lookup slds-is-open"> -->
+        <div class={getLookupClass}>
             <template if:true={inputData}>
-                <div class="slds-input-has-icon slds-input-has-icon_right" onkeyup={handleKeyUp}>
-                    <lightning-icon icon-name={getSelectIconName} size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true" alternative-text="Search"></lightning-icon>
-                    <input class="slds-input"
-                        type="text"
-                        autocomplete="off"           
-                        placeholder='Input for search...'
-                        value={searchTerm}
-                        onclick={handleSearch} 
-                        oninput={handleSearch}
-                        onblur={handleBlur}
-                        ></input>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                        <div class={getFormPillClass}>
+                            <lightning-pill style="width: 100%" label={searchTerm} onremove={handleClearSelectedItem}></lightning-pill>
+                        </div>
+                        <div onkeyup={handleKeyUp}>
+                            <lightning-icon class={getFormIconClass} icon-name="utility:search" size="x-small" aria-hidden="true" alternative-text="Search"></lightning-icon>
+                            <input class={getFormInputClass} role="combobox" aria-autocomplete="list"
+                                type="text"
+                                autocomplete="off"           
+                                placeholder='Input for search...'
+                                value={searchTerm}
+                                onclick={handleSearch} 
+                                oninput={handleSearch}
+                                onblur={handleBlur}
+                                ></input>
+                        </div>
+                    </div>
                 </div>
             </template>
             <template if:true={searchResult}>
-                <div onfocus={handleResultInFocus}>
-                    <ul>
+                <div class="slds-lookup__menu" role="listbox" onfocus={handleResultInFocus} >
+                    <ul class="slds-lookup__list" role="presentation">
                         <template for:each={searchResult} for:item="item">
-                                <li key={item} onclick={selectItem}>
-                                    <div id={getItemId} class="container slds-button" title={item.Label} data-item-value={item.Value} data-item-label={item.Label} lwc:dom="manual"></div>
+                                <li key={item} onclick={selectItem} class="slds-lookup__item" role="option">
+                                    <span id={getItemId} class="container slds-button" title={item.Label} data-item-value={item.Value} data-item-label={item.Label} lwc:dom="manual"></span>
                                 </li> 
                         </template>
                         <template if:true={hasNoResult}>
-                                <li>
+                                <li class="slds-lookup__item">
                                     <div class="slds-button" >Nothing found</div>
                                 </li>                            
                         </template>
                     </ul>                      
                 </div>
             </template>
-
-            <!-- <template if:true={inputData}>
-                <span>===</span>
-                <ul>
-                    <template for:each={inputData} for:item="object">
-                            <li key={object}>
-                                <span class="slds-button" data-record-api-name={object.Name}>{object.Label}</span>
-                            </li> 
-                        </template>
-                    </ul> 
-            </template> -->
         </div>
     </lightning-card>
 </template>
