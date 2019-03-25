@@ -44,5 +44,6 @@
     ,  
     handleClear: function(component,event, helper){
         console.log(`Aura clear`);
+        component.set("v.selected", null);
     }
 })

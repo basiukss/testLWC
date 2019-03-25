@@ -37,6 +37,7 @@ export default class LookupTwo extends LightningElement {
         if (isEnterKey) {
             this.searchTerm = evt.target.value = '';
             this.searchResult = [];
+            this.handleSearch(evt);
         }
     }
 
@@ -90,8 +91,9 @@ export default class LookupTwo extends LightningElement {
     renderedCallback() {
         const elements = this.template.querySelectorAll('.container');        
         if(elements.length >0){
+            //console.log(elements[0].dataset.itemLabel);
             for(let i = 0; i < elements.length; i++){
-                let str = elements[i].title;
+                let str = elements[i].dataset.itemLabel;
                 const keyword = this.searchTerm;
                 if(keyword.length > 0){
                     let pos = 0;
@@ -128,10 +130,10 @@ export default class LookupTwo extends LightningElement {
     // style
     get getLookupClass(){
         let style = 'slds-lookup ';
-        if(this.hasResult()){
+        if(this.hasResult() || (this.searchTerm.length > 0 & this.hasSelection() === false)){
             style += 'slds-is-open'
         }
-        return style;        
+        return style;
     }
 
     get getFormPillClass(){

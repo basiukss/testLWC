@@ -28,12 +28,12 @@
                     <ul class="slds-lookup__list" role="presentation">
                         <template for:each={searchResult} for:item="item">
                                 <li key={item} onclick={selectItem} class="slds-lookup__item" role="option">
-                                    <span id={getItemId} class="container slds-button" title={item.Label} data-item-value={item.Value} data-item-label={item.Label} lwc:dom="manual"></span>
+                                    <span id={getItemId} class="container slds-button" data-item-value={item.Value} data-item-label={item.Label} lwc:dom="manual"></span>
                                 </li> 
                         </template>
                         <template if:true={hasNoResult}>
-                                <li class="slds-lookup__item">
-                                    <div class="slds-button" >Nothing found</div>
+                                <li class="slds-lookup__item" role="option">
+                                    <span class="slds-button" >Nothing found</span>
                                 </li>                            
                         </template>
                     </ul>                      
