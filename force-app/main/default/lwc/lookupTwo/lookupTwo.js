@@ -5,8 +5,25 @@ export default class LookupTwo extends LightningElement {
     @track searchTerm = '';
     @track searchResult = [];
     @api resultData = {};
-    @api clearData = false;
     blurTimeout;
+
+    @api 
+    get lwcAction(){
+        return null;
+    }
+    set lwcAction(data){
+        if(data){
+            console.log('lwc get lwcAction: ');
+            if(data.action === 'clear'){
+                console.log('clear ' + data.object.Label);
+                if(this.hasSelection()){
+                    this.handleClearSelectedItem();
+                }
+            }else{
+                console.log(data.action);
+            }
+        }
+    }
 
     handleSearch(evt){
         // init
@@ -66,7 +83,7 @@ export default class LookupTwo extends LightningElement {
         this.resultData = {'Value': evt.target.dataset.itemValue, 'Label': evt.target.outerText};        
         this.searchResult = [];
         this.searchTerm = evt.target.outerText;
-        console.log(this.resultData);
+        //console.log(this.resultData);
 
         // close resultList
         if (this.blurTimeout) {
@@ -86,6 +103,10 @@ export default class LookupTwo extends LightningElement {
         this.searchResult = [];
         this.searchTerm = '';
         this.resultData = {};
+        // event
+        const eventName = 'cleared';
+        const event = new CustomEvent(eventName);
+        this.dispatchEvent(event);
     }
 
     renderedCallback() {

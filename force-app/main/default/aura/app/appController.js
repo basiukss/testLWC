@@ -37,13 +37,18 @@
     }
     ,  
     handleCustomEvent: function(component,event, helper){
-        console.log('Aura handle event');
-        console.log(event.getParam('selected'));
         component.set("v.selected", event.getParam('selected'));
     }
     ,  
-    handleClear: function(component,event, helper){
-        console.log(`Aura clear`);
+    handleCustomEvent2: function(component,event, helper){
         component.set("v.selected", null);
+    }
+    ,    
+    handleClear: function(component,event, helper){
+        component.set('v.action', {action: 'clear', object: component.get("v.selected")});
+    }
+    ,
+    handleClickAction: function(component,event, helper){
+        component.set('v.action',{action: 'button in Aura component'});
     }
 })
