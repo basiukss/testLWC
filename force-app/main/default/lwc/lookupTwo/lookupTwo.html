@@ -19,7 +19,8 @@
                     <ul>
                         <template for:each={searchResult} for:item="item">
                                 <li key={item} onclick={selectItem}>
-                                    <span id={getItemId} class="slds-button" data-item-value={item.Value}>{item.Label}{test}</span>
+                                    <!-- <span id={getItemId} class="slds-button" data-item-value={item.Value}>{item.Label}{test}</span> -->
+                                    <div id={getItemId} class="container slds-button" title={item.Label} data-item-value={item.Value} data-item-label={item.Label} lwc:dom="manual"></div>
                                 </li> 
                         </template>
                         <template if:true={hasNoResult}>

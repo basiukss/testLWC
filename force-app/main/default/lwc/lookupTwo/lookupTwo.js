@@ -1,11 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
 
+const CONTAINER_HTML = `<div>Some HTML</div>`;
+
 export default class LookupTwo extends LightningElement {
     @api inputData;
     @track searchTerm = '';
     @track searchResult = [];
     @api resultData = {};
-    itemId = 0;
     blurTimeout;
 
     handleSearch(evt){
@@ -29,56 +30,6 @@ export default class LookupTwo extends LightningElement {
         result.sort(function (a, b) {
             return ((a[field] > b[field]) - (b[field] > a[field]))
         });        
-        // highlihgt results        
-        if( keyword.length > 0){                        
-            for (let i = 0; i < result.length; i++) {
-                let str = result[i][field];
-                let pos = 0;
-                let foundedPositions = [];
-                while(true){
-                    let foundPos = str.toUpperCase().indexOf(keyword.toUpperCase(), pos);
-                    if(foundPos === -1){
-                        break;
-                    }else {
-                        foundedPositions.push(foundPos);
-                        pos = foundPos + 1;
-                    }
-                }
-                for(let j = foundedPositions.length-1; j >= 0; j--){
-                    str = str.slice(0, foundedPositions[j]) + 
-                        '<span style="color: red">' + 
-                        str.slice(foundedPositions[j], foundedPositions[j] + keyword.length) + 
-                        '</span>' + 
-                        str.slice(foundedPositions[j] + keyword.length)
-                }
-                //!!!!!!!!!!! result[i][field] = str;                
-                console.log(str);
-
-                // while(true){
-                //     let foundPos = str.toUpperCase().indexOf(keyword.toUpperCase(), pos);
-                //     if(foundPos === -1){
-                //         break;
-                //     }else {
-                //         pos = foundPos + 1;
-                //         // console.log(`keyword lenght: ` + keyword.length + ` found on position: ` + foundPos);
-                //         // console.log(str + ' : ' + str.substr(foundPos, keyword.length));            
-                    
-                //         console.log(    str.slice(0, foundPos) + 
-                //                         '<span>' + 
-                //                         str.slice(foundPos, foundPos + keyword.length) + 
-                //                         '</span>' + 
-                //                         str.slice(foundPos + keyword.length));
-                //         str = str.slice(0, foundPos) + 
-                //             '<span>' + 
-                //             str.slice(foundPos, foundPos + keyword.length) + 
-                //             '</span>' + 
-                //             str.slice(foundPos + keyword.length)
-                //     }
-                // }
-                // result[i][field] = str;
-            }
-        }
-        this.itemId = 0;
         this.searchResult = result;        
     }
 
@@ -137,5 +88,36 @@ export default class LookupTwo extends LightningElement {
         console.log(this);
         console.log(this.template.querySelector('lookupItem'));
         return '';
+    }
+
+    renderedCallback() {
+        const elements = this.template.querySelectorAll('.container');        
+        if(elements.length >0){
+            for(let i = 0; i < elements.length; i++){
+                let str = elements[i].title;
+                const keyword = this.searchTerm;
+                if(keyword.length > 0){
+                    let pos = 0;
+                    let foundedPositions = [];
+                    while(true){
+                        let foundPos = str.toUpperCase().indexOf(keyword.toUpperCase(), pos);
+                        if(foundPos === -1){
+                            break;
+                        }else {
+                            foundedPositions.push(foundPos);
+                            pos = foundPos + 1;
+                        }
+                    }
+                    for(let j = foundedPositions.length-1; j >= 0; j--){
+                        str = str.slice(0, foundedPositions[j]) + 
+                            '<span class="highlight">' + 
+                            str.slice(foundedPositions[j], foundedPositions[j] + keyword.length) + 
+                            '</span>' + 
+                            str.slice(foundedPositions[j] + keyword.length)
+                    }
+                }
+                elements[i].innerHTML = str;
+            }
+        }
     }
 }
