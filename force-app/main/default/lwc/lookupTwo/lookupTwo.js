@@ -1,7 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
 
-const CONTAINER_HTML = `<div>Some HTML</div>`;
-
 export default class LookupTwo extends LightningElement {
     @api inputData;
     @track searchTerm = '';
@@ -54,7 +52,7 @@ export default class LookupTwo extends LightningElement {
     }
 
     get hasNoResult(){
-        return this.searchTerm.length > 0 & this.searchResult.length === 0 & this.resultData.length === 0;
+        return this.searchTerm.length > 0 & this.searchResult.length === 0 & this.hasSelection() === false;
     }
 
     selectItem(evt){             
@@ -76,18 +74,6 @@ export default class LookupTwo extends LightningElement {
             detail: { selected: this.resultData }
         });
         this.dispatchEvent(event);
-    }
-
-    get getItemId(){
-        let id = 'lookupItem' + this.itemId;
-        this.itemId ++;
-        return id;
-    }
-
-    get test(){
-        console.log(this);
-        console.log(this.template.querySelector('lookupItem'));
-        return '';
     }
 
     renderedCallback() {
@@ -119,5 +105,20 @@ export default class LookupTwo extends LightningElement {
                 elements[i].innerHTML = str;
             }
         }
+    }
+
+    hasSelection() {
+        if(this.resultData.hasOwnProperty('Label')){
+            return true;
+        }
+        return false;
+    }
+
+    // style
+    get getSelectIconName() {
+        if(this.hasSelection() === true){
+            return 'utility:close';
+        }
+        return 'utility:search';
     }
 }

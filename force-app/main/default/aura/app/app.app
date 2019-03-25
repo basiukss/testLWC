@@ -2,14 +2,10 @@
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:attribute name="data" type="String"/>
     <aura:attribute name="selected" type="Object"/>
-    
-    <lightning:card title="{!v.selected.Label}">
-        <lightning:button label="Clear" onclick="{! c.handleClear }"/>
-        <p class="slds-p-horizontal_small">
-            {!v.selected.Value}
-        </p>
-    </lightning:card>
-
+    <lightning:card title="Aura" iconName="standard:account" class="slds-m-around_small">
+        <aura:if isTrue="{!v.selected}">
+            <lightning:pill label="{!v.selected.Label}" onremove="{! c.handleClear }"/>
+        </aura:if>
         <lightning:layout multipleRows="true">        
             <lightning:layoutItem size="12">
                 <lightning:button label="Random" onclick="{! c.handleClickRandom }"/>
@@ -23,5 +19,5 @@
                 <!-- <c:record /> -->
             </lightning:layoutItem>    
         </lightning:layout>
-    
+    </lightning:card>
 </aura:application>
